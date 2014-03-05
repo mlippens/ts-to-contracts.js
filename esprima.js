@@ -650,7 +650,7 @@ parseYieldExpression: true
                 range: [start, index]
             };
 
-            default:
+        default:
             code2 = source.charCodeAt(index + 1);
 
             // '=' (char #61) marks an assignment or comparison operator.
@@ -1656,11 +1656,13 @@ parseYieldExpression: true
             };
         },
 
-        createFunctionDeclaration: function (id, params, defaults, body, rest, generator, expression) {
+        createFunctionDeclaration: function (id, params, defaults, types, returnType, body, rest, generator, expression) {
             return {
                 type: Syntax.FunctionDeclaration,
                 id: id,
                 params: params,
+                argumentTypes: types,
+                returnType: returnType,
                 defaults: defaults,
                 body: body,
                 rest: rest,
@@ -1669,12 +1671,14 @@ parseYieldExpression: true
             };
         },
 
-        createFunctionExpression: function (id, params, defaults, body, rest, generator, expression) {
+        createFunctionExpression: function (id, params, defaults, types, returnType, body, rest, generator, expression) {
             return {
                 type: Syntax.FunctionExpression,
                 id: id,
                 params: params,
                 defaults: defaults,
+                argumentTypes: types,
+                returnType: returnType,
                 body: body,
                 rest: rest,
                 generator: generator,
@@ -4078,7 +4082,7 @@ parseYieldExpression: true
     }
 
     function parseParam(options) {
-        var token, rest, param, def;
+        var token, rest, param, def, type, typeIdentifier;
 
         token = lookahead;
         if (token.value === '...') {
@@ -4106,6 +4110,12 @@ parseYieldExpression: true
                 def = parseAssignmentExpression();
                 ++options.defaultCount;
             }
+            //types for arguments
+            if (match(':')) {
+                lex();
+                typeIdentifier = parseVariableIdentifier();
+                type = {param: param.name, type: typeIdentifier.type, name: typeIdentifier.name };
+            }
         }
 
         if (rest) {
@@ -4118,16 +4128,18 @@ parseYieldExpression: true
 
         options.params.push(param);
         options.defaults.push(def);
+        options.types.push(type);
         return !match(')');
     }
 
     function parseParams(firstRestricted) {
-        var options;
+        var options, type;
 
         options = {
             params: [],
             defaultCount: 0,
             defaults: [],
+            types: [],
             rest: null,
             firstRestricted: firstRestricted
         };
@@ -4145,6 +4157,12 @@ parseYieldExpression: true
         }
 
         expect(')');
+
+        //recognise returntype of functions
+        if (match(':')) {
+            lex();
+            options.returnType = parseVariableIdentifier();
+        }
 
         if (options.defaultCount === 0) {
             options.defaults = [];
@@ -4206,7 +4224,7 @@ parseYieldExpression: true
         strict = previousStrict;
         state.yieldAllowed = previousYieldAllowed;
 
-        return delegate.createFunctionDeclaration(id, tmp.params, tmp.defaults, body, tmp.rest, generator, false);
+        return delegate.createFunctionDeclaration(id, tmp.params, tmp.defaults, tmp.types, tmp.returnType, body, tmp.rest, generator, false);
     }
 
     function parseFunctionExpression() {
@@ -4263,7 +4281,7 @@ parseYieldExpression: true
         strict = previousStrict;
         state.yieldAllowed = previousYieldAllowed;
 
-        return delegate.createFunctionExpression(id, tmp.params, tmp.defaults, body, tmp.rest, generator, false);
+        return delegate.createFunctionExpression(id, tmp.params, tmp.defaults, tmp.types, tmp.returnType, body, tmp.rest, generator, false);
     }
 
     function parseYieldExpression() {
