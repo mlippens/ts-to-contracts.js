@@ -650,10 +650,11 @@ parseYieldExpression: true
                 range: [start, index]
             };
 
-        default:
+            default:
             code2 = source.charCodeAt(index + 1);
 
             // '=' (char #61) marks an assignment or comparison operator.
+            // the second one is =, so check the first one for combined operators
             if (code2 === 61) {
                 switch (code) {
                 case 37:  // %
@@ -1433,6 +1434,7 @@ parseYieldExpression: true
             return scanStringLiteral();
         }
 
+        // 96 = space
         if (ch === 96) {
             return scanTemplate();
         }
@@ -4589,6 +4591,7 @@ parseYieldExpression: true
     function parseProgram() {
         var body;
         strict = false;
+        //set lookahead first
         peek();
         body = parseProgramElements();
         return delegate.createProgram(body);
