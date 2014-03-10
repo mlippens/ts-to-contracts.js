@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-      "falafel": "git://github.com/froginvasion/node-falafel#harmony"
+      "falafel": "git://github.com/froginvasion/node-falafel#harmony",
+      "yargs": "latest"
   },
   "author": "",
   "license": "MIT"
