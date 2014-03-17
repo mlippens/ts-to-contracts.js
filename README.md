@@ -26,8 +26,7 @@ or
 
 ##Run in browser
 
-To run the file in the browser, you will need to add `contracts.js` in your script tags.
-In a regular installation this will be:
+To run the file in the browser, you will need to add [contracts.js](https://github.com/disnet/contracts.js) library in your script tags. It has been added to the dependencies of this projecet, since the output is not runnable without it. In a regular installation this will be:
 
 * `<script language="javascript" src="node_modules/contracts.js/lib/contracts.js" />`
 * Load your own file using a script tag, or use require.js. 
