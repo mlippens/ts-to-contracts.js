@@ -22,7 +22,7 @@ Either use one of the following options to run the file in node.
 
 or
 
-* node --harmony_proxies --harmony-collections file.js
+* `node --harmony_proxies --harmony-collections file.js`
 
 ##Run in browser
 
