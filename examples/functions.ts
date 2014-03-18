@@ -3,3 +3,5 @@ function foo(a: number):number {
 }
 
 foo(2);
+
+(function(a: ()=>void) {});
