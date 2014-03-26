@@ -46,7 +46,6 @@ interface MochaSetupOptions {
     grep?: any;
 }
 
-/*
 interface MochaDone {
     (error?: Error): void;
-}*/
+}
