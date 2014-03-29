@@ -10,7 +10,9 @@
       "falafel": "git://github.com/froginvasion/node-falafel#harmony",
       "contracts-js": "git://github.com/froginvasion/contracts.js",
       "yargs": "latest",
-      "js-beautify": "latest"
+      "js-beautify": "latest",
+      "requirejs": "latest",
+      "qunitjs": "1.10"
   },
   "author": "",
   "license": "MIT"

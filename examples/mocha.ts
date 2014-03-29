@@ -56,43 +56,24 @@ declare var describe : {
 }
 
 declare var it: {
-    (expectation: string, assertion?: () => void): void;
-    (expectation: string, assertion?: (done: MochaDone) => void): void;
-    only(expectation: string, assertion?: () => void): void;
-    only(expectation: string, assertion?: (done: MochaDone) => void): void;
-    skip(expectation: string, assertion?: () => void): void;
-    skip(expectation: string, assertion?: (done: MochaDone) => void): void;
+    (expectation: string, assertion?: (done?: MochaDone) => void): void;
+    only(expectation: string, assertion?: (done?: MochaDone) => void): void;
+    skip(expectation: string, assertion?: (done?: MochaDone) => void): void;
     timeout(ms: number): void;
 };
 
-declare function before(action: () => void): void;
+declare function before(action: (done?: MochaDone) => void): void;
 
-declare function before(action: (done: MochaDone) => void): void;
+declare function setup(action: (done?: MochaDone) => void): void;
 
-declare function setup(action: () => void): void;
+declare function after(action: (done?: MochaDone) => void): void;
 
-declare function setup(action: (done: MochaDone) => void): void;
+declare function teardown(action: (done?: MochaDone) => void): void;
 
-declare function after(action: () => void): void;
+declare function beforeEach(action: (done?: MochaDone) => void): void;
 
-declare function after(action: (done: MochaDone) => void): void;
-
-declare function teardown(action: () => void): void;
-
-declare function teardown(action: (done: MochaDone) => void): void;
-
-declare function beforeEach(action: () => void): void;
-
-declare function beforeEach(action: (done: MochaDone) => void): void;
-
-declare function suiteSetup(action: () => void): void;
-
-declare function suiteSetup(action: (done: MochaDone) => void): void;
-
-declare function afterEach(action: () => void): void;
+declare function suiteSetup(action: (done?: MochaDone) => void): void;
 
 declare function afterEach(action: (done: MochaDone) => void): void;
 
-declare function suiteTeardown(action: () => void): void;
-
-declare function suiteTeardown(action: (done: MochaDone) => void): void;
+declare function suiteTeardown(action: (done?: MochaDone) => void): void;
