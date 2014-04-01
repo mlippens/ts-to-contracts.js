@@ -10,7 +10,7 @@ require(["Qunit","contracts-js"], function(Q, contracts) {
     var server = "server";
     var client = "client";
 
-    //QUnit.start("");
+    QUnit.start("");
 
 
     module("Basic Contracts");
