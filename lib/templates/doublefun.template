@@ -1,0 +1,2 @@
+<%= prefix %>fun({"call": [<%= calldom%>, <%= callrng %>]
+    "new": [<%= newdom %>, <%= newrng %>]})
