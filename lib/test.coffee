@@ -1,10 +1,3 @@
-tmpl = require('./microtemplating').tmpl
-fs = require('fs')
+config = require('./config')
 
-
-file = fs.readFileSync('templates/ambientclass.js', 'utf8')
-
-console.log file
-res = tmpl file, className: "annelies"
-
-console.log res
+console.log config.template_folder
