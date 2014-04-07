@@ -1,4 +1,4 @@
-function foo(a: number):number {
+function foo(a: number): number {
 	return "2";
 }
 

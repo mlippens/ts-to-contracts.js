@@ -1,5 +1,7 @@
 interface Foo {
     ():void;
-    new(a: string): any;
-    foo : string;
+    new(a: string): void;
 }
+
+var f : Foo = function(){};
+new f();

@@ -8,11 +8,16 @@
     }
 
     var globals = {};
-    var Foo = C.and(C.object({
-        foo: C.Str
-    }, {}), C.fun({
-        "call": [C.Str, C.Any],
-        "new": [, C.Undefined]
+    var Foo = C.and(C.object({}, {}), C.fun({
+        "call": [
+            [], C.Undefined
+        ],
+        "new": [
+            [C.Str], C.Any
+        ]
     }));
+
+    var f = C.guard(Foo, C.guard(C.fun([], C.Any, {}), function() {}, "main"), "main");
+    new f();
     return globals;
 }).call(this);

@@ -1,2 +1,2 @@
-<%= contracts_prefix %>fun({"call": [<%= calldom%>, <%= callrng %>],
-    "new": [<%= newdom %>, <%= newrng %>]})
+<%= contracts_prefix %>fun({"call": [[<%= calldom%>], <%= callrng %>],
+    "new": [ [<%= newdom %>], <%= newrng %>]})
