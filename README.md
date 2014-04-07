@@ -12,9 +12,11 @@ The goal is to transform Typescript to Javascript with contracts applied.
 
 #Usage
 To transform a Typescript file to a contracted JavaScript file, do the following
-* `./bin/ts-to-contracts [path-to-typescript-file].ts`
+* `./bin/ts-to-contracts [path-to-typescript-file].ts (-m [modulename])`
 
 Now a `js` file is created in the same location. 
+Options:
+* -m [modulename] 
 
 ##Run in node.js
 Either use one of the following options to run the file in node.
