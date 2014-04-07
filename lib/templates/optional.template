@@ -1,0 +1,1 @@
+<%= contracts_prefix %>opt(<%=contract%>)
