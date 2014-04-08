@@ -1,0 +1,1 @@
+<%= contracts_prefix%>extend(<%= orig %>, <%= extending %>)
