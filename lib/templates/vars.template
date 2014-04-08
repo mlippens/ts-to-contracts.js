@@ -1,6 +1,8 @@
-var <% for(var i=0; i < variables.length; i++) { %>
-    <%= variables[i] %>
-    <% if (i + 1 !== variables.length) {%>
-        ,
-    <% } %>
-<% } %>;
+<% if(variables.length !== 0) {%>
+    var <% for(var i=0; i < variables.length; i++) { %>
+        <%= variables[i] %>
+        <% if (i + 1 !== variables.length) {%>
+            ,
+        <% } %>
+    <% } %>;
+<% } %>
