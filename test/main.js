@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'Qunit': '../examples/qunit'
+        //'Qunit': '../examples/qunit'
     }
 });
 
@@ -8,7 +8,4 @@ define('contracts-js',[],function(){
    return window['contracts-js'];
 });
 
-require(['test.js'],function(){
-    QUnit.load();
-    QUnit.start();
-});
+require(['array.js'],function(){});
