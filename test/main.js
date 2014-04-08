@@ -8,4 +8,4 @@ define('contracts-js',[],function(){
    return window['contracts-js'];
 });
 
-require(['array.js'],function(){});
+require(['test.js'],function(){});

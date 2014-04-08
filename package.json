@@ -12,7 +12,7 @@
       "yargs": "latest",
       "js-beautify": "latest",
       "requirejs": "latest",
-      "qunitjs": "1.10"
+      "harmony-reflect": "latest"
   },
   "author": "",
   "license": "MIT"
