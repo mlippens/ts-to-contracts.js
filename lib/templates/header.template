@@ -1,10 +1,2 @@
-(function() {
-    var root, <%= contracts_var %>;
-    root = this;
-    if (typeof require === "function") {
-        <%=contracts_var%> = require("contracts-js");
-    } else {
-        <%=contracts_var%> = root["contracts-js"];
-    }
-
-    var <%= toplevel_var %> = {};
+define(["require", "exports", "contracts-js"], function(require, exports) {
+    var <%= contracts_var %> = require("contracts-js");

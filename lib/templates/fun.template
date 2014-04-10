@@ -1,1 +1,1 @@
-<%= contracts_prefix %>fun([<%=dom%>],<%=rng%>,{})
+<%= contracts_prefix %>fun([<%=dom%>],<%=rng%>, <%= JSON.stringify(opt) %>)

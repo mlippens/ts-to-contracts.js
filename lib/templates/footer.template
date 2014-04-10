@@ -1,2 +1,3 @@
-    return <%= toplevel_var %>;
-}).call(this);
+
+return <%= toplevel_var %>;
+});

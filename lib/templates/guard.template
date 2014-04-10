@@ -1,4 +1,4 @@
 <%= contracts_prefix %>guard(<%= contract%>, <%= guarded %>
 <% if(typeof module !== 'undefined'){  %>
- , <%= module %>
+ , "<%= module %>"
 <% } %>)

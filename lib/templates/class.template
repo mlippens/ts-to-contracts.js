@@ -1,0 +1,17 @@
+var <%= name %> = (function (<%= super %>) {
+
+  __extends(<%= name %>, <%= super%>);
+  function <%= name %>() {
+    <%= super%>.call(this);
+  }
+
+  <% for(var i=0;i < static.length; i++) { %>
+      <%= name %>.<%= static[i].name %> = function <%= static[i].body %>;
+  <% } %>
+
+  <% for(var i=0;i < instance.length; i++) { %>
+    <%= name %>.prototype.<%= instance[i].name %> = function <%= instance[i].body %>;
+  <% } %>
+
+  return <%= name %>
+})(<%= super %>);
