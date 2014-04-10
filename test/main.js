@@ -14,8 +14,8 @@ window.Foo.prototype.bar = function(){ return "hi";}
 
 require(['../examples/class.js'], function(Class) {
    var f = new Class.Foo("hi");
-   //Class.Foo.foo;
-    //f.bar();
+   Class.Foo.foo;
+   f.bar();
 });
 
 /*
