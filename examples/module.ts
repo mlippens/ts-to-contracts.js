@@ -5,7 +5,12 @@ declare module Foo {
     interface Bar {
         foo: string;
     }
-    var foo : string;
+
+    class Foo {
+        static bar: string;
+        foo():void;
+    }
+    var foo : Bar;
     function bar(a: string): void;
 
 
