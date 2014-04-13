@@ -1,5 +1,5 @@
-<%=toplevel_prefix %><%= className %> = function(){ <%= className %>.apply(this, arguments);};
-<%=toplevel_prefix %><%= className %>.prototype = Object.create(<%= className %>.prototype);
+<%= prefix %><%= className %> = function(){ <%= className %>.apply(this, arguments);};
+<%= prefix %><%= className %>.prototype = Object.create(<%= className %>.prototype);
 
-<%=toplevel_prefix %><%= className%> = <%= contract %>
+<%= prefix %><%= className%> = <%= contract %>
 

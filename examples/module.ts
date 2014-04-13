@@ -13,5 +13,4 @@ declare module Foo {
     var foo : Bar;
     function bar(a: string): void;
 
-
 }
