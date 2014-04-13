@@ -8,6 +8,7 @@ declare module Foo {
 
     class Foo {
         static bar: string;
+        constructor(a: string);
         foo():void;
     }
     var foo : Bar;
