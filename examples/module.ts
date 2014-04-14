@@ -11,6 +11,10 @@ declare module Foo {
         constructor(a: string);
         foo():void;
     }
+
+    module Beer {
+        var hello : string;
+    }
     var foo : Bar;
     function bar(a: string): void;
 
