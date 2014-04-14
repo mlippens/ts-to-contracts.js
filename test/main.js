@@ -8,14 +8,32 @@ define('contracts-js',[],function(){
    return window['contracts-js'];
 });
 
-window.Foo = function() {}
-window.Foo.foo = 42;
-window.Foo.prototype.bar = function(){ return "hi";}
+define("Foo",[], function(){
+    var Foo;
+    (function (_Foo) {
+        var Foo = (function () {
+            function Foo(a) {
+            }
+            Foo.prototype.foo = function () {
+            };
+            Foo.bar = "hi";
+            return Foo;
+        })();
+        _Foo.Foo = Foo;
+        _Foo.foo = { foo: "hi" };
+        function bar(a) {
+        }
+        _Foo.bar = bar;
+        return _Foo;
+    })(Foo || (Foo = {}));
+    return Foo;
+});
 
-require(['../examples/class.js'], function(Class) {
-   var f = new Class.Foo("hi");
-   Class.Foo.foo;
-   f.bar();
+
+
+require(['contracts-js', '../examples/module.js'], function(C, Foo) {
+    Foo = C.use(Foo, "mymain");
+    new Foo.Foo.Foo(2);
 });
 
 /*

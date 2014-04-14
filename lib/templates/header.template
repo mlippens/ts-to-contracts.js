@@ -1,2 +1,0 @@
-define(["require", "exports", "contracts-js"], function(require, exports) {
-    var <%= contracts_var %> = require("contracts-js");

@@ -1,0 +1,14 @@
+define(["require", "exports", "contracts-js" <%if (typeof module !== 'undefined') {%>, "<%= module %>" <% } %>], function(require, exports) {
+    var <%= contracts_var %> = require("contracts-js");
+    <%= variables %>
+    <% if (typeof module !== 'undefined') {%>
+            <%= module %> = require("<%= module %>");
+        <% } %>
+
+    <%= body %>
+
+<% if (typeof module !== 'undefined') {%>
+    <%= contracts_prefix %>setExported(<%= toplevel_var %>, "<%= module %>");
+<% } %>
+return <%= toplevel_var %>;
+});
