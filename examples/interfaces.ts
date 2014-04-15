@@ -18,7 +18,7 @@ interface Parseable {
 
 interface PersistenceOptions {
     url?: string;
-    beforeSend?: (jqxhr: JQueryXHR) => void;
+    beforeSend?: (jqxhr: string) => void;
     success?: (modelOrCollection?: any, response?: any, options?: any) => void;
-    error?: (modelOrCollection?: any, jqxhr?: JQueryXHR, options?: any) => void;
+    error?: (modelOrCollection?: any, jqxhr?: string, options?: any) => void;
 }

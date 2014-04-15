@@ -12,9 +12,7 @@ declare module Foo {
         foo():void;
     }
 
-    module Beer {
-        var hello : string;
-    }
+
     var foo : Bar;
     function bar(a: string): void;
 

@@ -16,7 +16,7 @@ define("Foo",[], function(){
             }
             Foo.prototype.foo = function () {
             };
-            Foo.bar = "hi";
+            Foo.bar = 2;
             return Foo;
         })();
         _Foo.Foo = Foo;
@@ -31,7 +31,7 @@ define("Foo",[], function(){
 
 
 
-require(['contracts-js', '../examples/module.js'], function(C, Foo) {
+require(['contracts-js', '../examples/module.js', "Foo"], function(C, Foo, RealFoo) {
     Foo = C.use(Foo, "mymain");
     new Foo.Foo.Foo(2);
 });
