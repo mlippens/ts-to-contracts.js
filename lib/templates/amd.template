@@ -7,8 +7,5 @@ define(["require", "exports", "contracts-js" <%if (typeof module !== 'undefined'
 
     <%= body %>
 
-<% if (typeof module !== 'undefined') {%>
-    <%= contracts_prefix %>setExported(<%= toplevel_var %>, "<%= module %>");
-<% } %>
 return <%= toplevel_var %>;
 });

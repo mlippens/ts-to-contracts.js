@@ -1,1 +1,5 @@
-<%= toplevel_prefix %><%= name %> = <%= value %>
+<%= toplevel_var %>
+<% if(typeof name !== 'undefined') { %>
+.<%= name %>
+<% } %>
+ = <%= value %>
