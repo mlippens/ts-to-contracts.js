@@ -17,6 +17,7 @@ To transform a Typescript file to a contracted JavaScript file, do the following
 Now a `js` file is created in the same location. 
 Options:
 * -m [modulename] 
+The `-m` option assumes an external typescript module. I.e. it will try to `require` the module, and then export a contracted version of the library.
 
 ##Run in node.js
 Either use one of the following options to run the file in node.
