@@ -3,4 +3,4 @@
     <%= keys[i].name %>: <%= values[i] %>
     <% if (i + 1 !== keys.length) {%>,<% } %>
 <% } %>
-}, <%= JSON.stringify(opt) %>)
+}, <%= JSON.stringify(opt).replace(/\:"([^(\")"]+)\"/g,":$1") %>)

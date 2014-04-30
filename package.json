@@ -8,7 +8,7 @@
   },
   "devDependencies": {
       "falafel": "git://github.com/froginvasion/node-falafel#harmony",
-      "contracts-js": "git://github.com/froginvasion/contracts.js",
+      "contracts-js": "git://github.com/froginvasion/contracts.js#module-support",
       "yargs": "latest",
       "js-beautify": "latest",
       "requirejs": "latest",

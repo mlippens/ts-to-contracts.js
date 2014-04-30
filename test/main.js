@@ -10,30 +10,28 @@ define('contracts-js',[],function(){
 
 define("Foo",[], function(){
     var Foo;
-    (function (_Foo) {
-        var Foo = (function () {
-            function Foo(a) {
-            }
-            Foo.prototype.foo = function () {
-            };
-            Foo.bar = 2;
-            return Foo;
-        })();
-        _Foo.Foo = Foo;
-        _Foo.foo = { foo: "hi" };
-        function bar(a) {
-        }
-        _Foo.bar = bar;
-        return _Foo;
-    })(Foo || (Foo = {}));
+    Foo = (function () {
+        var Foo = function(){
+            console.log("hi from constructor");
+        };
+
+        Foo.prototype.ho = function(){
+            console.log("Foooo!");
+        };
+        return Foo;
+    })();
     return Foo;
 });
 
 
 
 require(['contracts-js', '../examples/module.js', "Foo"], function(C, Foo, RealFoo) {
-    Foo = C.use(Foo, "mymain");
-    new Foo.Foo.Foo(2);
+    new RealFoo().ho();
+    console.log(Foo);
+    var f = new Foo.Foo("hi");
+    console.log(f);
+    f.ho();
+
 });
 
 /*

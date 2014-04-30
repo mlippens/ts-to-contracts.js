@@ -1,0 +1,9 @@
+var <%= contracts_var %> = require("contracts-js");
+    <%= variables %>
+    <% if (typeof module !== 'undefined') {%>
+            <%= module %> = require("<%= module %>");
+        <% } %>
+
+    <%= body %>
+
+return <%= toplevel_var %>;
