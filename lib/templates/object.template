@@ -3,4 +3,9 @@
     <%= keys[i].name %>: <%= values[i] %>
     <% if (i + 1 !== keys.length) {%>,<% } %>
 <% } %>
-}, <%= JSON.stringify(opt).replace(/\:"([^(\")"]+)\"/g,":$1") %>)
+}, {<% for (var prop in opt) { %>
+        <% if (opt.hasOwnProperty(prop)) { %>
+            "<%= prop %>": <%= opt[prop] %>
+        <% } %>
+
+    <% } %>})
