@@ -1,5 +1,6 @@
 declare class Foo {
-    foo(): void;
-    foo(a: string): void;
-    bar(a: number):void;
+    setElement(element: HTMLElement, delegate?: boolean): View;
+    setElement(element: any, delegate?: boolean): View;
+    setElement(element: any): View;
+
 }

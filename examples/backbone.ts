@@ -270,7 +270,7 @@ declare module Backbone {
 
         start(options?: HistoryOptions): boolean;
 
-        getHash(window?: Window): string;
+        getHash(window?: any): string;
         getFragment(fragment?: string, forcePushState?: boolean): string;
         stop(): void;
         route(route: string, callback: Function): number;
@@ -340,5 +340,5 @@ declare module Backbone {
 }
 
 declare module "backbone" {
-export = Backbone;
+    export = Backbone;
 }
