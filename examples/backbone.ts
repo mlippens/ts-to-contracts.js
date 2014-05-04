@@ -103,7 +103,7 @@ declare module Backbone {
         urlRoot: any;
 
         constructor(attributes?: any, options?: any);
-        initialize(attributes?: any): void;
+        initialize(attributes?: any, options?: any): void;
 
         fetch(options?: ModelFetchOptions): any;
 
