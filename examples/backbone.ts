@@ -339,6 +339,7 @@ declare module Backbone {
     var $: any;
 }
 
+
 declare module "backbone" {
     export = Backbone;
 }

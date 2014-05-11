@@ -1,9 +1,10 @@
 /**
  * Created by mello on 4/30/14.
  */
+var walk = require('./lib/walk').walk;
 var t = require('./lib/transform').toContracts;
 var fs = require("fs");
 
-var file = fs.readFileSync("examples/overloads.ts", "utf8");
+var file = fs.readFileSync("examples/class.ts", "utf8");
 
-t(file);
+console.log(t(file));

@@ -8,11 +8,13 @@
   },
   "devDependencies": {
       "falafel": "git://github.com/froginvasion/node-falafel#harmony",
+      "esprima": "git://github.com/froginvasion/esprima#typescript",
       "contracts-js": "git://github.com/froginvasion/contracts.js#module-support",
       "yargs": "latest",
       "js-beautify": "latest",
       "requirejs": "latest",
-      "harmony-reflect": "latest"
+      "harmony-reflect": "latest",
+      "execSync": "latest"
   },
   "author": "",
   "license": "MIT"

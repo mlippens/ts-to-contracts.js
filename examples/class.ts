@@ -1,5 +1,12 @@
-declare class Foo {
-    static foo : string;
-    bar : ()=> void;
-    constructor(a: string);
+/**
+ * Created by mello on 5/8/14.
+ */
+class Foo {
+
+    fu(){
+
+    }
+    static bar() {
+
+    }
 }
