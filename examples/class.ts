@@ -4,7 +4,8 @@
 class Foo {
 
     fu(){
-
+        var a : string = "hi";
+        var b : (a: string) => void = function(a){};
     }
     static bar() {
 
