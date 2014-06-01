@@ -1,4 +1,4 @@
-define(["require", "exports", "contracts-js", "backbone"], function(require, exports) {
+ define(["require", "exports", "contracts-js", "backbone"], function(require, exports) {
     var C = require("contracts-js");
     var backbone, AddOptions, HistoryOptions, NavigateOptions, RouterOptions, Silenceable, Validable, Waitable, Parseable, PersistenceOptions, ModelSetOptions, ModelFetchOptions, ModelSaveOptions, ModelDestroyOptions, CollectionFetchOptions, OptionalDefaults, OptionalRoutes, ViewOptions, OptionalEvents, Events_class, Events, ModelBase_class, ModelBase, Model_class, Model, Collection_class, Collection, Router_class, Router, History_class, History, View_class, View, Backbone;
     backbone = require("backbone"); // Type definitions for Backbone 1.0.0

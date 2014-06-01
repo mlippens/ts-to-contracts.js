@@ -1,1 +1,1 @@
-overload_fun(<%= contracts %>)
+<%= contracts_prefix %>overload_fun(<%= contracts %>)
