@@ -5,6 +5,6 @@ var walk = require('./lib/walk').walk;
 var t = require('./lib/transform').toContracts;
 var fs = require("fs");
 
-var file = fs.readFileSync("examples/backbone.ts", "utf8");
+var file = fs.readFileSync("examples/test.ts", "utf8");
 
-console.log(t(file));
+console.log(walk(file));

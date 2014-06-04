@@ -1,11 +1,11 @@
 /**
-* Created by mello on 5/7/14.
-*
-* This file just gives us back a representation of the nesting in the file
-* (so i.e. with respect to modules.)
-* This is needed because of the fact that falafel always treats it's children first.
-* that way we have no idea of knowing where we are.
-*/
+ * Created by mello on 5/7/14.
+ *
+ * This file just gives us back a representation of the nesting in the file
+ * (so i.e. with respect to modules.)
+ * This is needed because of the fact that falafel always treats it's children first.
+ * that way we have no idea of knowing where we are.
+ */
 var parse = require('esprima').parse;
 
 var scope_map = new WeakMap();
@@ -15,12 +15,12 @@ var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-var registerVariable = (function () {
-    var moduleTree = {};
+
+var register_variable = (()=> {
 
     var calc = function (name) {
         var contains;
-        contains = registeredVariables.some(function (e) {
+        contains = registeredVariables.some(function(e) {
             return e === name;
         });
         if (contains) {
@@ -31,42 +31,44 @@ var registerVariable = (function () {
         }
     };
 
-    var getNewName = function (originalname) {
-        var newname = calc(originalname);
-        return newname;
-    };
-    return getNewName;
+    return calc;
 })();
 
-var Scope = (function () {
-    function Scope(level) {
-        this.level = level;
+class Scope {
+
+    static top_level = 0;
+
+    private registered_frame : Object;
+    private parent : Scope;
+    private frame : Array<String>;
+
+    constructor(public level) {
         this.frame = [];
         this.registered_frame = {};
         this.parent = null;
     }
-    Scope.prototype.enter_scope = function () {
+
+    enter_scope() {
         var new_scope = new Scope(this.level + 1);
         new_scope.parent = this;
         return new_scope;
-    };
+    }
 
-    Scope.prototype.exit_scope = function () {
+    exit_scope() {
         if (this.parent != null) {
             return this.parent;
         }
         throw new Error("Cannot exit toplevel scope!");
-    };
+    }
 
-    Scope.prototype.register = function (name, identifier) {
-        var registered = registerVariable(name);
+    register(name, identifier) {
+        var registered = register_variable(name);
         scope_map.set(identifier, this);
-        console.log(scope_map.get(identifier));
         this.registered_frame[name] = registered;
         this.frame.push(name);
-    };
+    }
 
-    Scope.prototype.lookup = function (item) {
+    lookup(item) {
         var splitted = item.split(".");
         if (splitted.length === 1) {
             //todo: what if dotted scope?
@@ -82,43 +84,37 @@ var Scope = (function () {
                 return false;
             }
         }
-    };
-    Scope.top_level = 0;
-    return Scope;
-})();
+    }
+}
 var toplevel_scope = new Scope(Scope.top_level);
 var current_scope = toplevel_scope;
 
-var Utils;
-(function (Utils) {
-    function isModuleMember(node) {
+module Utils {
+
+    export function isModuleMember(node) {
         return node.type === "ModuleMember";
     }
-    Utils.isModuleMember = isModuleMember;
 
-    function isInterface(node) {
+    export function isInterface(node) {
         return node.type === "InterfaceDeclaration";
     }
-    Utils.isInterface = isInterface;
 
-    function isModule(node) {
+    export function isModule(node) {
         return node.type === "ModuleDeclaration";
     }
-    Utils.isModule = isModule;
 
-    function isClass(node) {
+    export function isClass(node) {
         return node.type === "ClassDeclaration";
     }
-    Utils.isClass = isClass;
-})(Utils || (Utils = {}));
+}
 
-exports.walk = function (src) {
-    var ast = parse(src, { "range": true });
+exports.walk = function(src){
+    var ast = parse(src, {"range": true});
     walk(ast);
 
     function walkModule(ast) {
         var name, internal_name, external_name;
-        for (var i = 0; i < ast.body.length; i++) {
+        for (var i = 0; i < ast.body.length; i ++ ){
             var node = ast.body[i];
             if (Utils.isModuleMember(node)) {
                 node = node.typeDeclaration;
@@ -140,15 +136,15 @@ exports.walk = function (src) {
     }
 
     /***
-    * A "flat" walk over the AST.
-    * Only considers top-level elements!
-    * @param ast
-    * @param dict
-    */
+     * A "flat" walk over the AST.
+     * Only considers top-level elements!
+     * @param ast
+     * @param dict
+     */
     function walk(ast) {
         var newscope, node, externalname, internalname, name;
 
-        for (var i = 0; i < ast.body.length; i++) {
+        for (var i = 0; i < ast.body.length; i ++ ) {
             node = ast.body[i];
             if (Utils.isModule(node)) {
                 externalname = node.id.value;
@@ -157,10 +153,12 @@ exports.walk = function (src) {
                 current_scope.register(name, node.range);
                 current_scope = current_scope.enter_scope();
                 walkModule(node);
-            } else if (Utils.isClass(node)) {
+            }
+            else if (Utils.isClass(node)) {
                 var name = node.id.name;
                 current_scope.register(name, node.range);
-            } else if (Utils.isInterface(node)) {
+            }
+            else if (Utils.isInterface(node)) {
                 var name = node.name.name;
                 current_scope.register(name, node.range);
             }
@@ -168,5 +166,3 @@ exports.walk = function (src) {
     }
     return current_scope;
 };
-
-console.log(scope_map.get([0, 59]));

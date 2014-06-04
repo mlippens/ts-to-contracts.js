@@ -606,17 +606,17 @@ declare module D3 {
             (type: string): Xhr;
         };
         /*
-         * Get or Set the function used to map the response to the associated data value
+         * Get or Set the function used to scope_map the response to the associated data value
          */
         response: {
             /**
-             * Get function used to map the response to the associated data value
+             * Get function used to scope_map the response to the associated data value
              */
             (): (xhr: XMLHttpRequest) => any;
             /**
-             * Set function used to map the response to the associated data value
+             * Set function used to scope_map the response to the associated data value
              *
-             * @param value The function used to map the response to a data value
+             * @param value The function used to scope_map the response to a data value
              */
             (value: (xhr: XMLHttpRequest) => any): Xhr;
         };

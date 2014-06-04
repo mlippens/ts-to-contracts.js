@@ -1,11 +1,6 @@
-interface A {
-    a: B
-}
+declare module Foo {
 
-interface B {
-    a: C
-}
+    class Bar {}
 
-interface C {
-    a: A
+    module Foo {}
 }
