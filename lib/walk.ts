@@ -6,6 +6,7 @@
  * This is needed because of the fact that falafel always treats it's children first.
  * that way we have no idea of knowing where we are.
  */
+declare function require(name: string);
 var parse = require('esprima').parse;
 
 var scope_map = new WeakMap();
@@ -34,9 +35,19 @@ var register_variable = (()=> {
     return calc;
 })();
 
-class Scope {
+var toplevel_scope, current_scope;
+
+export class Scope {
 
     static top_level = 0;
+
+    static getTopLevelScope() {
+        return toplevel_scope;
+    }
+
+    static getScopeMap() {
+        return scope_map;
+    }
 
     private registered_frame : Object;
     private parent : Scope;
@@ -69,16 +80,18 @@ class Scope {
     }
 
     lookup(item) {
-        var splitted = item.split(".");
-        if (splitted.length === 1) {
+        var i, splitted, current;
+        splitted = item.split(".");
+        if (splitted.length > 1) {
             //todo: what if dotted scope?
         } else {
-            for (var current in this.frame) {
+            for (i = 0; i < this.frame.length; i ++) {
+                current = this.frame[i];
                 if (item === current) {
                     return this.registered_frame[item];
                 }
             }
-            if (parent != null) {
+            if (this.parent != null) {
                 return this.parent.lookup(item);
             } else {
                 return false;
@@ -86,10 +99,10 @@ class Scope {
         }
     }
 }
-var toplevel_scope = new Scope(Scope.top_level);
-var current_scope = toplevel_scope;
+toplevel_scope = new Scope(Scope.top_level);
+current_scope = toplevel_scope;
 
-module Utils {
+export module Utils {
 
     export function isModuleMember(node) {
         return node.type === "ModuleMember";
@@ -106,9 +119,17 @@ module Utils {
     export function isClass(node) {
         return node.type === "ClassDeclaration";
     }
+
+    export function getRegisteredVariables() {
+        return registeredVariables;
+    }
+    //possibly only useful for tests
+    export function resetRegisteredVariables() {
+        registeredVariables = [];
+    }
 }
 
-exports.walk = function(src){
+export function walk(src) {
     var ast = parse(src, {"range": true});
     walk(ast);
 

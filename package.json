@@ -1,10 +1,10 @@
 {
   "name": "ts-to-contracts.js",
-  "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.3.0",
+  "description": "A tool to translate TypeScript type definition files to contracted JavaScript",
+  "main": "index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --harmony"
   },
   "devDependencies": {
       "falafel": "git://github.com/froginvasion/node-falafel#harmony",
@@ -13,9 +13,11 @@
       "yargs": "latest",
       "js-beautify": "latest",
       "requirejs": "latest",
-      "harmony-reflect": "latest",
-      "execSync": "latest"
+      "harmony-reflect": "1.0",
+      "execSync": "latest",
+      "mocha": "latest",
+      "chai": "latest"
   },
-  "author": "",
+  "author": "Michael Lippens",
   "license": "MIT"
 }
