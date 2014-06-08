@@ -6,37 +6,54 @@
  * This is needed because of the fact that falafel always treats it's children first.
  * that way we have no idea of knowing where we are.
  */
-declare function require(name: string);
-var parse = require('esprima').parse;
 
-var scope_map = new WeakMap();
-var registeredVariables = [];
+import ast = require('./ast');
+declare function require(name: string);
+var parse, scope_map, toString, toplevel_scope, current_scope;;
+parse = require('esprima').parse;
+scope_map = new Map();
+toString = Object.prototype.toString;
+
 
 var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
+/***
+ * Centralised object for registering new variables or resetting all.
+ * @type {{register: (function(any): (any|any)), get: (function(): Array), reset: (function(): undefined)}}
+ */
+var registerUtils = (function() {
+    var registered, register, exports;
+    registered = [];
 
-var register_variable = (()=> {
-
-    var calc = function (name) {
+    register = function (name) {
         var contains;
-        contains = registeredVariables.some(function(e) {
+        contains = registered.some(function(e) {
             return e === name;
         });
         if (contains) {
-            return calc("_".concat(name));
+            return register("_".concat(name));
         } else {
-            registeredVariables.push(name);
+            registered.push(name);
             return name;
         }
     };
 
-    return calc;
+    exports =  {
+        "register": register,
+        "get": function(){ return registered},
+        "reset": function(){ registered = [];}
+    };
+
+    return exports;
 })();
 
-var toplevel_scope, current_scope;
-
+/***
+ * Class that takes care of scopes.
+ * Core functions are entering (enter_scope()) or exiting scope (exit_scope())
+ * As well as either registering in a scope, or doing a lookup in a scope.
+ */
 export class Scope {
 
     static top_level = 0;
@@ -45,8 +62,8 @@ export class Scope {
         return toplevel_scope;
     }
 
-    static getScopeMap() {
-        return scope_map;
+    static getScope(identifier) {
+        return scope_map.get(identifier.toString());
     }
 
     private registered_frame : Object;
@@ -59,27 +76,33 @@ export class Scope {
         this.parent = null;
     }
 
-    enter_scope() {
+    public enter_scope() {
         var new_scope = new Scope(this.level + 1);
         new_scope.parent = this;
         return new_scope;
     }
 
-    exit_scope() {
+    public exit_scope() {
         if (this.parent != null) {
             return this.parent;
         }
         throw new Error("Cannot exit toplevel scope!");
     }
 
-    register(name, identifier) {
-        var registered = register_variable(name);
-        scope_map.set(identifier, this);
+    /**
+     * identifier is toString() because arrays are compared by reference whilst strings aren't
+     * We don't want comparison by reference because they won't be the same
+     * @param name of the variable registered
+     * @param identifier, the object that will be passed to retrieve the scope
+     */
+    public register(name, identifier) {
+        var registered = registerUtils.register(name);
+        scope_map.set(identifier.toString(), this);
         this.registered_frame[name] = registered;
         this.frame.push(name);
     }
 
-    lookup(item) {
+    public lookup(item) {
         var i, splitted, current;
         splitted = item.split(".");
         if (splitted.length > 1) {
@@ -99,51 +122,42 @@ export class Scope {
         }
     }
 }
-toplevel_scope = new Scope(Scope.top_level);
-current_scope = toplevel_scope;
 
-export module Utils {
+export module utils {
 
-    export function isModuleMember(node) {
-        return node.type === "ModuleMember";
-    }
-
-    export function isInterface(node) {
-        return node.type === "InterfaceDeclaration";
-    }
-
-    export function isModule(node) {
-        return node.type === "ModuleDeclaration";
-    }
-
-    export function isClass(node) {
-        return node.type === "ClassDeclaration";
-    }
-
-    export function getRegisteredVariables() {
-        return registeredVariables;
-    }
+    export var getRegisteredVariables = registerUtils.get;
+    export var registerVariable = registerUtils.register;
     //possibly only useful for tests
-    export function resetRegisteredVariables() {
-        registeredVariables = [];
-    }
+    export var resetRegisteredVariables = registerUtils.reset;
 }
-
+/***
+ * Walks the tree and builds the scope.
+ * The scope is put in a Map, and the keys are the range of the associated object.
+ * Scopes resolve around Modules and only modules can enter new scope levels.
+ * Any type that can be a "type" is tracked here. These are
+ * Modules, Classes and Interfaces
+ * @param src
+ * @returns {Scope}
+ */
 export function walk(src) {
-    var ast = parse(src, {"range": true});
-    walk(ast);
+    //initialisation of the scope
+    toplevel_scope = new Scope(Scope.top_level);
+    current_scope = toplevel_scope;
 
-    function walkModule(ast) {
+    var tree = parse(src, {"range": true});
+    walk(tree);
+
+    function walkModule(tree) {
         var name, internal_name, external_name;
-        for (var i = 0; i < ast.body.length; i ++ ){
-            var node = ast.body[i];
-            if (Utils.isModuleMember(node)) {
+        for (var i = 0; i < tree.body.length; i ++ ){
+            var node = tree.body[i];
+            if (ast.isModuleMember(node)) {
                 node = node.typeDeclaration;
-                if (Utils.isClass(node)) {
+                if (ast.isClass(node)) {
                     current_scope.register(node.id.name, node.range);
-                } else if (Utils.isInterface(node)) {
+                } else if (ast.isInterface(node)) {
                     current_scope.register(node.name.name, node.range);
-                } else if (Utils.isModule(node)) {
+                } else if (ast.isModule(node)) {
                     external_name = node.id.value;
                     internal_name = node.id.name;
                     name = typeof external_name === 'undefined' ? internal_name : external_name;
@@ -158,16 +172,16 @@ export function walk(src) {
 
     /***
      * A "flat" walk over the AST.
-     * Only considers top-level elements!
-     * @param ast
+     * Only considers top-level scope
+     * @param tree
      * @param dict
      */
-    function walk(ast) {
+    function walk(tree) {
         var newscope, node, externalname, internalname, name;
 
-        for (var i = 0; i < ast.body.length; i ++ ) {
-            node = ast.body[i];
-            if (Utils.isModule(node)) {
+        for (var i = 0; i < tree.body.length; i ++ ) {
+            node = tree.body[i];
+            if (ast.isModule(node)) {
                 externalname = node.id.value;
                 internalname = node.id.name;
                 name = typeof externalname === 'undefined' ? internalname : externalname;
@@ -175,15 +189,15 @@ export function walk(src) {
                 current_scope = current_scope.enter_scope();
                 walkModule(node);
             }
-            else if (Utils.isClass(node)) {
+            else if (ast.isClass(node)) {
                 var name = node.id.name;
                 current_scope.register(name, node.range);
             }
-            else if (Utils.isInterface(node)) {
+            else if (ast.isInterface(node)) {
                 var name = node.name.name;
                 current_scope.register(name, node.range);
             }
         }
     }
-    return current_scope;
+    return toplevel_scope;
 };

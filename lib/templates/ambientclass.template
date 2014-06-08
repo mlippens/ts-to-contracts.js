@@ -1,5 +1,2 @@
-<%= prefix %><%= className %> = function(){ <%= className %>.apply(this, arguments);};
-<%= prefix %><%= className %>.prototype = Object.create(<%= className %>.prototype);
-
 <%= prefix %><%= className%> = <%= contract %>
 

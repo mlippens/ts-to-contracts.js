@@ -1,10 +1,12 @@
 /**
  * Created by mello on 4/30/14.
  */
-var walk = require('./lib/walk').walk;
+var scope = require('./lib/scope');
 var t = require('./lib/transform').toContracts;
 var fs = require("fs");
 
-var file = fs.readFileSync("examples/test.ts", "utf8");
+scope.utils.registerVariable("Backbone");
 
-console.log(walk(file));
+var file = fs.readFileSync("examples/backbone.ts", "utf8");
+
+console.log(t(file));
