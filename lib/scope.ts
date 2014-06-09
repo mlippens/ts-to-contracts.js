@@ -9,8 +9,9 @@
 
 import ast = require('./ast');
 declare function require(name: string);
-var parse, scope_map, toString, toplevel_scope, current_scope;;
+var parse, scope_map, toString, toplevel_scope, current_scope, config;
 parse = require('esprima').parse;
+config = require('./config');
 scope_map = new Map();
 toString = Object.prototype.toString;
 
@@ -25,7 +26,7 @@ var isArray = Array.isArray || function (xs) {
  */
 var registerUtils = (function() {
     var registered, register, exports;
-    registered = [];
+    registered = config["predefined_contracts"];
 
     register = function (name) {
         var contains;
@@ -43,7 +44,7 @@ var registerUtils = (function() {
     exports =  {
         "register": register,
         "get": function(){ return registered},
-        "reset": function(){ registered = [];}
+        "reset": function(){ registered = config["predefined_contracts"];}
     };
 
     return exports;
@@ -104,6 +105,9 @@ export class Scope {
 
     public lookup(item) {
         var i, splitted, current;
+        if (typeof item === "undefined") {
+            return false;
+        }
         splitted = item.split(".");
         if (splitted.length > 1) {
             //todo: what if dotted scope?

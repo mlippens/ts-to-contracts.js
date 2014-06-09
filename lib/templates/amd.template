@@ -5,6 +5,7 @@ define(["require", "exports", "contracts-js" <%if (typeof module !== 'undefined'
             <%= module %> = require("<%= module %>");
         <% } %>
 
+    <%= predefined %>
     <%= body %>
 
 return <%= toplevel_var %>;

@@ -4,6 +4,7 @@ var <%= contracts_var %> = require("contracts-js");
             <%= module %> = require("<%= module %>");
         <% } %>
 
+    <%= predefined %>
     <%= body %>
 
 return <%= toplevel_var %>;
