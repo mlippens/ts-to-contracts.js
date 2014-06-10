@@ -144,7 +144,7 @@ export module utils {
  * @returns {Scope}
  */
 export function walk(src) {
-    //initialisation of the scope
+
     toplevel_scope = new Scope(Scope.top_level);
     current_scope = toplevel_scope;
 
@@ -152,23 +152,27 @@ export function walk(src) {
     walk(tree);
 
     function walkModule(tree) {
-        var name, internal_name, external_name;
+        var name, internal_name, external_name, declaration;
         for (var i = 0; i < tree.body.length; i ++ ){
             var node = tree.body[i];
             if (ast.isModuleMember(node)) {
-                node = node.typeDeclaration;
-                if (ast.isClass(node)) {
-                    current_scope.register(node.id.name, node.range);
-                } else if (ast.isInterface(node)) {
-                    current_scope.register(node.name.name, node.range);
-                } else if (ast.isModule(node)) {
-                    external_name = node.id.value;
-                    internal_name = node.id.name;
+                declaration = node.typeDeclaration;
+                if (ast.isClass(declaration)) {
+                    current_scope.register(declaration.id.name, declaration.range);
+                } else if (ast.isInterface(declaration)) {
+                    current_scope.register(declaration.name.name, declaration.range);
+                } else if (ast.isModule(declaration)) {
+                    external_name = declaration.id.value;
+                    internal_name = declaration.id.name;
                     name = typeof external_name === 'undefined' ? internal_name : external_name;
                     current_scope.register(name, node.range);
                     current_scope = current_scope.enter_scope();
-                    walkModule(node);
+                    walkModule(declaration);
+                } else {
+                    current_scope.register(node.id.name, declaration.range);
                 }
+            } else {
+                //exportstatement is not a modulemember!
             }
         }
         current_scope = current_scope.exit_scope();
