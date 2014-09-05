@@ -9,9 +9,7 @@ define(["require", "exports", "contracts-js", "backbone"], function(require, exp
 
 
     /// <reference path="../jquery/jquery.d.ts" />
-    Silenceable = C.object({
-        silent: C.opt(C.Bool)
-    }, {}, "Silenceable");
+
     AddOptions = C.extend(C.object({
         at: C.opt(C.Num)
     }, {}, "AddOptions"), Silenceable);
@@ -25,7 +23,9 @@ define(["require", "exports", "contracts-js", "backbone"], function(require, exp
     RouterOptions = C.object({
         routes: C.Any
     }, {}, "RouterOptions");
-
+    Silenceable = C.object({
+        silent: C.opt(C.Bool)
+    }, {}, "Silenceable");
     Validable = C.object({
         validate: C.opt(C.Bool)
     }, {}, "Validable");
@@ -56,7 +56,15 @@ define(["require", "exports", "contracts-js", "backbone"], function(require, exp
     OptionalRoutes = C.object({
         routes: C.opt(C.fun([], C.Any, {}))
     }, {}, "OptionalRoutes");
-
+    ViewOptions = C.object({
+        model: C.opt(Model),
+        collection: C.opt(Collection),
+        el: C.opt(C.Any),
+        id: C.opt(C.Str),
+        className: C.opt(C.Str),
+        tagName: C.opt(C.Str),
+        attributes: C.opt(C.Arr(C.Any))
+    }, {}, "ViewOptions");
     OptionalEvents = C.object({
         events: C.opt(C.fun([], C.Any, {}))
     }, {}, "OptionalEvents");
@@ -221,15 +229,6 @@ define(["require", "exports", "contracts-js", "backbone"], function(require, exp
     }, {
         "class": Collection
     }));
-    ViewOptions = C.object({
-        model: C.opt(Model),
-        collection: C.opt(Collection),
-        el: C.opt(C.Any),
-        id: C.opt(C.Str),
-        className: C.opt(C.Str),
-        tagName: C.opt(C.Str),
-        attributes: C.opt(C.Arr(C.Any))
-    }, {}, "ViewOptions");
     Router = C.extend(C.object({
         initialize: C.fun([C.opt(RouterOptions)], C.Undefined, {}),
         route: C.fun([C.Str, C.Str, C.opt(C.Fun)], C.Self, {}),
@@ -304,7 +303,7 @@ define(["require", "exports", "contracts-js", "backbone"], function(require, exp
     }, "Backbone");
 
 
-    exports = C.guard(Backbone, backbone, "backbone");
+    exports = C.guard(_backbone, backbone, "backbone");
     C.setExported(exports, 'backbone');
     return exports;
 });
