@@ -1,13 +1,7 @@
 /**
  * Created by mello on 5/8/14.
  */
-class Foo {
-
-    fu(){
-        var a : string = "hi";
-        var b : (a: string) => void = function(a){};
-    }
-    static bar() {
-
-    }
+declare class Foo {
+    foo(a: string, b: number): void;
+    static bar(a:boolean): any;
 }

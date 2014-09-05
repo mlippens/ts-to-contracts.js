@@ -8,4 +8,7 @@
             "<%= prop %>": <%= opt[prop] %>
         <% } %>
 
-    <% } %>})
+
+    <% } %>}
+
+     <% if (typeof name !== "undefined") { %>, "<%= name %>" <% } %>)

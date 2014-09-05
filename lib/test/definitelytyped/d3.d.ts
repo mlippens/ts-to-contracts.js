@@ -16,7 +16,7 @@ declare module D3 {
              */
             (selector: string): Selection;
             /**
-             * Selects the specified node
+             * Selects the specified ts-to-contracts
              *
              * @param element Node element to select
              */
@@ -36,7 +36,7 @@ declare module D3 {
             /**
              * Selects the specified array of elements
              *
-             * @param elements Array of node elements to select
+             * @param elements Array of ts-to-contracts elements to select
              */
             (elements: EventTarget[]): Selection;
         };
@@ -913,7 +913,7 @@ declare module D3 {
                  */
                 (selector: string): Transition;
                 /**
-                 * Selects the specified node
+                 * Selects the specified ts-to-contracts
                  *
                  * @param element Node element to select
                  */
@@ -933,7 +933,7 @@ declare module D3 {
                 /**
                  * Selects the specified array of elements
                  *
-                 * @param elements Array of node elements to select
+                 * @param elements Array of ts-to-contracts elements to select
                  */
                 (elements: EventTarget[]): Transition;
             }
@@ -1108,7 +1108,7 @@ declare module D3 {
              */
             nodes(root: GraphNode): TreeLayout;
             /**
-             * Given the specified array of nodes, such as those returned by nodes, returns an array of objects representing the links from parent to child for each node
+             * Given the specified array of nodes, such as those returned by nodes, returns an array of objects representing the links from parent to child for each ts-to-contracts
              */
             links(nodes: Array<GraphNode>): Array<GraphLink>;
             /**

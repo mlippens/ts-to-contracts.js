@@ -1,2 +1,0 @@
- #! /bin/bash
- node --harmony-proxies --harmony_collections "$@"

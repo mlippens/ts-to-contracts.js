@@ -1,6 +1,6 @@
 {
-  "name": "ts-to-contracts.js",
-  "version": "0.3.0",
+  "name": "ts-to-contracts",
+  "version": "0.4.0",
   "description": "A tool to translate TypeScript type definition files to contracted JavaScript",
   "main": "index",
   "scripts": {
@@ -15,8 +15,7 @@
       "requirejs": "latest",
       "harmony-reflect": "1.0",
       "execSync": "latest",
-      "mocha": "latest",
-      "chai": "latest"
+      "mocha": "latest"
   },
   "author": "Michael Lippens",
   "license": "MIT"
